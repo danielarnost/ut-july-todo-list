@@ -2,6 +2,11 @@ var express = require('express');
 var PORT = process.env.PORT || 3000;
 var app = express();
 var Sequelize = require ('sequelize');
+var exphbs = require('express-handlebars');
+app.engine('handlebars',  exphbs({defaultLayout: 'main'}));
+app.set('view engine',  'handlebars');
+
+
 var models = require ('./models');
 // console.log(models.TodoItem);
 // var exhbs = require ('handlebars', exhbs({defaultLayout: 'main'}))
@@ -37,8 +42,14 @@ models.TodoItem.bulkCreate(
 
 
 app.get ('/', function (req, res){
-	res.send('Todolist');
+	//res.render becomes an option because of hanldebars
 	//grab all todos
+	//SELECT * FROM todoitems;
+	// models.TodoItem.findAll({}).then(function(data){
+	// res.send(data);  
+//	});** use later*****
+res.render('home')
+	
 });
 
 app.post('/todos/', function (req, res) {
