@@ -12,21 +12,22 @@ var models = require ('./models');
 // var exhbs = require ('handlebars', exhbs({defaultLayout: 'main'}))
 
 var models = require('./models');
-models.TodoItem.bulkCreate(
-	[{
-	task: "Watch Rogue One",
-	done: false
-	},
-	{
-	task: "Clean house",
-	done: false
-	},
-	{
-	task: "Get a haircut",
-	done: false
-	}]
+models.TodoItem.sync({force:true}).then(function(){
+	return models.TodoItem.bulkCreate(
+		[{
+		task: "Watch Rogue One",
+		done: false
+		},
+		{
+		task: "Clean house",
+		done: false
+		},
+		{
+		task: "Get a haircut",
+		done: false
+		}]
 );
-
+});
 
 // var TodoItem = Sequelize.define('todoitem', {
 // 	task: Sequelize.STRING,
@@ -42,16 +43,19 @@ models.TodoItem.bulkCreate(
 
 
 app.get ('/', function (req, res){
+	
 	//res.render becomes an option because of hanldebars
 	//grab all todos
 	//SELECT * FROM todoitems;
-	// models.TodoItem.findAll({}).then(function(data){
+
+	models.TodoItem.findAll({}).then(function(data){
+		console.log(data);
 	// res.send(data);  
 //	});** use later*****
-res.render('home')
-	
+res.render('home', {tasks:data});	
 });
 
+});
 app.post('/todos/', function (req, res) {
 res.send("add a todo!");
 
