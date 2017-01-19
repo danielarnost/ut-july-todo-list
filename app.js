@@ -75,9 +75,11 @@ res.redirect('/');
 });
 
 app.put('/todos/:id', function (req, res) {
+//update todo with specific id
 res.send('update with id!');
 });
 
+//req.params.id is from the route aka query string
 app.delete('/todos/:id', function (req, res) {
 //update todo with a specific id
 	console.log("We want to delete #" + req.params.id);
