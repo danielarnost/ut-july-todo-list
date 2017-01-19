@@ -1,6 +1,12 @@
 
 <ul>
-{{#each tasks}}
-<li>{{task}}</li>
+{{#each tasks}} 
+<li>{{id}} - {{task}} - Done: {{done}} </li>
 {{/each}}
 </ul>
+
+<form id="addTodo" method="POST" action="/todos">
+<p>Add a task</p>
+<input type="text" name="newTask" />
+<input type="submit" name="submit" value="Add a Task">
+</form>
