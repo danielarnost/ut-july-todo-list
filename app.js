@@ -7,7 +7,8 @@ var exphbs = require('express-handlebars');
 app.engine('handlebars',  exphbs({defaultLayout: 'main'}));
 app.set('view engine',  'handlebars');
 
-
+var methodOverride = require('method-override');
+app.use(methodOverride('_method'));
 var bodyParser = require('body-parser');
 // parse application/x-www-form-urlencoded 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -53,7 +54,7 @@ app.get ('/', function (req, res){
 	//SELECT * FROM todoitems;
 
 	models.TodoItem.findAll({}).then(function(data){
-		console.log(data);
+		// console.log(data);
 	// res.send(data);  
 //	});** use later*****
 res.render('home', {tasks:data});	
@@ -61,7 +62,7 @@ res.render('home', {tasks:data});
 
 });
 app.post('/todos/', function (req, res) {
-	console.log(req.body.newTask);
+	// console.log(req.body.newTask);
 	models.TodoItem.create({
 			task: req.body.newTask,  //hardcoding a new task?
 			done: false
@@ -79,11 +80,16 @@ res.send('update with id!');
 
 app.delete('/todos/:id', function (req, res) {
 //update todo with a specific id
-res.send('delete with id!');
+	console.log("We want to delete #" + req.params.id);
+//what we want is to delete /todo/4 without affecting the others
+	models.TodoItem.destroy(
+		{where: {
+			id: req.params.id
+		}
+	}).then(function(data){		
+	res.redirect('/');
+		});
 });
-
-
-
 
 app.listen(PORT, function() {
 	console.log('listening on ' + PORT);

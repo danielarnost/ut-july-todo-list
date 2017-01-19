@@ -1,7 +1,9 @@
 
 <ul>
 {{#each tasks}} 
-<li>{{id}} - {{task}} - Done: {{done}} </li>
+<li> {{id}} - {{task}} - Done: {{done}} <form method="POST" action="/todos/{{id}}?_method=DELETE">
+  <button type="submit">Delete Todo</button>
+</form></li>
 {{/each}}
 </ul>
 
